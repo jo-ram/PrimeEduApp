@@ -1,0 +1,68 @@
+﻿@model IEnumerable<PrimeEduApp2.Models.Classroom>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            Classroom Name
+            @*@Html.DisplayNameFor(model => model.ClassroomName)*@
+        </th>
+        <th>@Html.DisplayNameFor(model => model.ID)</th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ClassroomName)
+
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ID)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.ID }) |
+                @*@Html.ActionLink("Details", "Details", new { id=item.ID }) |*@
+                @*@Html.ActionLink("Delete", "Delete", new { id=item.ID })*@
+                <button data-classroom-id="@item.ID" class="btn btn-link js-delete">Delete</button>
+            </td>
+        </tr>
+    }
+
+</table>
+
+
+@section scripts
+{
+    <script>
+        $(document).ready(function () {
+          /*  $("#albums").DataTable();*/
+            var baseUrl = window.location.origin;
+            $(".js-delete").click(function (e) {
+                var button = $(e.target);
+                e.preventDefault();
+                if (confirm("Are you sure you want to delete this classroom?")) {
+                    $.ajax({
+                        url: baseUrl + "/api/Classroom/" + button.attr("data-classroom-id"),
+                        method: "DELETE"
+                    }).done(function () {
+                        button.parents("tr").fadeOut(function () {
+                            $(this).remove();
+                        });
+                    }).fail(function () {
+                        alert("Something failed");
+                    });
+                }
+
+            });
+        });
+    </script>
+}
