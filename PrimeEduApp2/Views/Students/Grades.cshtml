@@ -1,0 +1,45 @@
+﻿@model PrimeEduApp2.ViewModels.GradesFormViewModel
+
+@{
+    ViewBag.Title = "Grades";
+}
+
+<h2>Grades</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.ExercisesDetails.Exercise.ExerciseName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Student.FirstName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ExercisesDetails.Grade)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model.ExercisesDetails) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Exercise.ExerciseName)
+        </td>
+        <td>
+           @Model.Student.FirstName
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Grade)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
+            @Html.ActionLink("Details", "Details", new { id=item.ID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.ID })
+        </td>
+    </tr>
+}
+
+</table>

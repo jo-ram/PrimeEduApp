@@ -1,107 +1,142 @@
-﻿using System;
+﻿using PrimeEduApp2.Models;
+using PrimeEduApp2.Repositories;
+using PrimeEduApp2.ViewModels;
+using System;
 using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
 using System.Linq;
-using System.Net;
 using System.Web;
 using System.Web.Mvc;
-using PrimeEduApp2.Models;
+using System.Data.Entity;
+using System.Net;
 
 namespace PrimeEduApp2.Controllers
 {
     public class StudentsController : Controller
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
+        private readonly ApplicationDbContext _context;
+        private readonly StudentRepository _studentRepository;
+        private readonly ClassroomRepository _classroomRepository;
+        public StudentsController()
+        {
+            _context = new ApplicationDbContext();
+            _studentRepository = new StudentRepository();
+            _classroomRepository = new ClassroomRepository();
+        }
 
         // GET: Students
         public ActionResult Index()
         {
-            var students = db.Students.Include(s => s.Classroom);
+            var students = _context.Students.Include(c => c.Classroom);
             return View(students.ToList());
         }
 
-        // GET: Students/Details/5
-        public ActionResult Details(int? id)
+        public ActionResult Grades(int? id)
         {
-            if (id == null)
+            var grades = _context.ExercisesDetails.Include(e => e.Exercise).Where(ex => ex.StudentId == id).ToList();
+            var student = _context.Students.SingleOrDefault(s => s.ID == id);
+
+            var viewmodel = new GradesFormViewModel() 
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Student student = db.Students.Find(id);
-            if (student == null)
-            {
-                return HttpNotFound();
-            }
-            return View(student);
+                ExercisesDetails = grades,
+                Student = student
+            };
+
+            return View(viewmodel);
         }
 
-        // GET: Students/Create
+        //public ActionResult StudentsPerClass(int? id)
+        //{
+        //    Student student = _context.Students.Include(c => c.Classrooms).SingleOrDefault(a => a.ClassroomID == id);
+
+        //    if (student == null)
+        //    {
+        //        return HttpNotFound();
+        //    }
+        //    return View();
+        //}
+
         public ActionResult Create()
         {
-            ViewBag.ClassroomID = new SelectList(db.Classrooms, "ID", "ClassroomName");
-            return View();
+            var classrooms = _context.Classrooms.ToList();
+            var viewmodel = new StudentFormViewModel()
+            {
+               Student = new Student(),
+                Classrooms = classrooms
+            };
+           
+            return View("Create", viewmodel);   
         }
 
-        // POST: Students/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ID,FirstName,LastName,ClassroomID")] Student student)
+        public ActionResult Create(Student student)
         {
-            if (ModelState.IsValid)
+            _context.Students.Add(student);
+            if (!ModelState.IsValid)
             {
-                db.Students.Add(student);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                var viewModel = new StudentFormViewModel()
+                {
+                    Student = student,
+                    Classrooms = _context.Classrooms.ToList()
+                };
+                return View("Create", viewModel);
             }
-
-            ViewBag.ClassroomID = new SelectList(db.Classrooms, "ID", "ClassroomName", student.ClassroomID);
-            return View(student);
+           
+            _context.SaveChanges();
+            return RedirectToAction("Index");
         }
 
-        // GET: Students/Edit/5
         public ActionResult Edit(int? id)
         {
-            if (id == null)
+
+            var student = _context.Students
+                .Include(c=>c.Classroom)
+                .SingleOrDefault(s => s.ID == id);
+
+            var viewmodel = new StudentFormViewModel()
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Student student = db.Students.Find(id);
+                Student = student,
+                Classrooms = _context.Classrooms.ToList()
+            };
+
             if (student == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.ClassroomID = new SelectList(db.Classrooms, "ID", "ClassroomName", student.ClassroomID);
-            return View(student);
+            return View("Edit", viewmodel);
         }
 
-        // POST: Students/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ID,FirstName,LastName,ClassroomID")] Student student)
+        public ActionResult Edit(StudentFormViewModel stform)
         {
-            if (ModelState.IsValid)
+
+            if (!ModelState.IsValid)
             {
-                db.Entry(student).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            ViewBag.ClassroomID = new SelectList(db.Classrooms, "ID", "ClassroomName", student.ClassroomID);
-            return View(student);
+                stform.Classrooms = _context.Classrooms.ToList();
+                return View("Edit", stform);
+            };
+
+            var studentformdb = _context.Students.Find(stform.Student.ID);
+            studentformdb.FirstName = stform.Student.FirstName;
+            studentformdb.LastName = stform.Student.LastName;
+            studentformdb.ClassroomID = stform.Student.ClassroomID;
+
+            _context.SaveChanges();
+            return RedirectToAction("Index");
+
         }
 
-        // GET: Students/Delete/5
+
         public ActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Student student = db.Students.Find(id);
+            Student student = _context.Students
+                .Include(c => c.Classroom)
+                .SingleOrDefault(s => s.ID == id);
+
             if (student == null)
             {
                 return HttpNotFound();
@@ -109,14 +144,14 @@ namespace PrimeEduApp2.Controllers
             return View(student);
         }
 
-        // POST: Students/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
+        public ActionResult Delete(int id)
         {
-            Student student = db.Students.Find(id);
-            db.Students.Remove(student);
-            db.SaveChanges();
+            Student student = _context.Students.Find(id);
+            _context.Students.Remove(student);
+            _context.SaveChanges();
+
             return RedirectToAction("Index");
         }
 
@@ -124,7 +159,7 @@ namespace PrimeEduApp2.Controllers
         {
             if (disposing)
             {
-                db.Dispose();
+                _context.Dispose();
             }
             base.Dispose(disposing);
         }

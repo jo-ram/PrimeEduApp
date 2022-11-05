@@ -24,6 +24,7 @@ namespace PrimeEduApp2.Models
         public DbSet<Teacher> Teachers { get; set; }
         public DbSet<Student> Students { get; set; }
         public DbSet<Exercise> Exercises { get; set; }
+        public DbSet<ExercisesDetails> ExercisesDetails { get; set; }
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
         {

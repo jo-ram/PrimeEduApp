@@ -1,0 +1,22 @@
+﻿@model PrimeEduApp2.ViewModels.ExerciseFormViewModel
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Create</h2>
+
+
+@using (Html.BeginForm("Create", "Exercises", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+<div class="form-group">
+    @Html.LabelFor(model => model.Exercise.ExerciseName)
+    @Html.TextBoxFor(model => model.Exercise.ExerciseName, new { @class = "form-control" })
+</div>
+<div class="form-group">
+    @Html.LabelFor(model => model.Exercise.ClassroomID)
+    @Html.DropDownListFor(model => model.Exercise.ClassroomID, new SelectList(Model.Classrooms, "ID", "ClassroomName"), new { @class = "form-control" })
+</div>
+    <button type="submit" class="btn btn-default"> Save </button>
+}
+
