@@ -1,0 +1,38 @@
+﻿@model PrimeEduApp2.Models.Classroom
+
+@{
+    ViewBag.Title = "ExercisesPerClassroom";
+}
+
+<h2>ExercisesPerClassroom</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create","Exercises")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @*@Html.DisplayNameFor(model => model.ClassroomName)*@
+            List of Exercises
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model.Exercises) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.ExerciseName)
+        </td>
+        <td>
+            @*@Html.ActionLink("Edit", "Edit","Exercises", new { id=item.ID }) |
+        @Html.ActionLink("Details", "Details", new { id=item.ID }) |
+        @Html.ActionLink("Delete", "Delete", "Exercises", new { id=item.ID })*@
+
+            <a href="@Url.Action("Edit","Exercises", new { controller = "Exercises", id = item.ID})">Edit</a> |
+            @*@Html.ActionLink("Details", "Details", "Students", new { id = item.ID }) |*@
+            <a href="@Url.Action("Delete","Exercises", new { controller = "Exercises", id = item.ID})">Delete</a>
+        </td>
+    </tr>
+}
+
+</table>

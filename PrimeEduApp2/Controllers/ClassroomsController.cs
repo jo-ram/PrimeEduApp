@@ -34,11 +34,11 @@ namespace PrimeEduApp2.Controllers
             return View(classroom);
         }
 
-        //public ActionResult StudentsPerClassroom2(int? id)
-        //{
-        //    var classrooms = _context.Classrooms.Include(s=>s.Students).Where(s=> s.ID ==id).ToList();
-        //    return View(classrooms);
-        //}
+        public ActionResult ExercisesPerClassroom(int? id)
+        {
+            var classroomsEx = _context.Classrooms.Include(s => s.Exercises).SingleOrDefault(c => c.ID == id);
+            return View(classroomsEx);
+        }
 
 
 

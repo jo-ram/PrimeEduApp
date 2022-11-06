@@ -14,13 +14,13 @@ namespace PrimeEduApp2.Controllers
     public class StudentsController : Controller
     {
         private readonly ApplicationDbContext _context;
-        private readonly StudentRepository _studentRepository;
-        private readonly ClassroomRepository _classroomRepository;
+        //private readonly StudentRepository _studentRepository;
+        //private readonly ClassroomRepository _classroomRepository;
         public StudentsController()
         {
             _context = new ApplicationDbContext();
-            _studentRepository = new StudentRepository();
-            _classroomRepository = new ClassroomRepository();
+            //_studentRepository = new StudentRepository();
+            //_classroomRepository = new ClassroomRepository();
         }
 
         // GET: Students
@@ -30,30 +30,32 @@ namespace PrimeEduApp2.Controllers
             return View(students.ToList());
         }
 
-        public ActionResult Grades(int? id)
-        {
-            var grades = _context.ExercisesDetails.Include(e => e.Exercise).Where(ex => ex.StudentId == id).ToList();
-            var student = _context.Students.SingleOrDefault(s => s.ID == id);
+        //public ActionResult Grades(int? id)
+        //{
+        //    var grades = _context.ExercisesDetails.Include(e => e.Exercise).Where(ex => ex.StudentId == id).ToList();
+        //    var student = _context.Students.SingleOrDefault(s => s.ID == id);
 
-            var viewmodel = new GradesFormViewModel() 
-            {
-                ExercisesDetails = grades,
-                Student = student
-            };
+        //    var viewmodel = new GradesFormViewModel() 
+        //    {
+        //        ExercisesDetails = grades,
+        //        Student = student
+        //    };
 
-            return View(viewmodel);
-        }
+        //    return View(viewmodel);
+        //}
 
-        public ActionResult Grades2(int? id)
-        {
-            Student student = _context.Students.Include(c => c.ExercisesDetails).SingleOrDefault(a => a.ID == id);
+        //public ActionResult Grades2(int? id)
+        //{
+        //    Student student = _context.Students.Include(c => c.ExercisesDetails).SingleOrDefault(a => a.ID == id);
 
-            if (student == null)
-            {
-                return HttpNotFound();
-            }
-            return View();
-        }
+        //    if (student == null)
+        //    {
+        //        return HttpNotFound();
+        //    }
+        //    return View();
+
+
+        //}
 
         public ActionResult Create()
         {
@@ -116,10 +118,10 @@ namespace PrimeEduApp2.Controllers
                 return View("Edit", stform);
             };
 
-            var studentformdb = _context.Students.Find(stform.Student.ID);
-            studentformdb.FirstName = stform.Student.FirstName;
-            studentformdb.LastName = stform.Student.LastName;
-            studentformdb.ClassroomID = stform.Student.ClassroomID;
+            var studentFromDb = _context.Students.Find(stform.Student.ID);
+            studentFromDb.FirstName = stform.Student.FirstName;
+            studentFromDb.LastName = stform.Student.LastName;
+            studentFromDb.ClassroomID = stform.Student.ClassroomID;
 
             _context.SaveChanges();
             return RedirectToAction("Index");

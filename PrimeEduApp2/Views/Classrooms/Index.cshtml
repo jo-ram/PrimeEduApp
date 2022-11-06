@@ -37,6 +37,9 @@
             <a href="@Url.Action("StudentsPerClassroom","Classrooms", new { controller = "Classrooms", id = item.ID})">
                 List of Students
             </a> |
+            <a href="@Url.Action("ExercisesPerClassroom","Classrooms", new { controller = "Classrooms", id = item.ID})">
+                List of Exercises
+            </a> |
             @Html.ActionLink("Edit", "Edit", new { id = item.ID }) |
             @*@Html.ActionLink("Details", "Details", new { id=item.ID }) |*@
             @Html.ActionLink("Delete", "Delete", new { id = item.ID })
