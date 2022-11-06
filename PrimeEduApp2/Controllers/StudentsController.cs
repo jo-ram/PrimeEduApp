@@ -44,16 +44,16 @@ namespace PrimeEduApp2.Controllers
             return View(viewmodel);
         }
 
-        //public ActionResult StudentsPerClass(int? id)
-        //{
-        //    Student student = _context.Students.Include(c => c.Classrooms).SingleOrDefault(a => a.ClassroomID == id);
+        public ActionResult Grades2(int? id)
+        {
+            Student student = _context.Students.Include(c => c.ExercisesDetails).SingleOrDefault(a => a.ID == id);
 
-        //    if (student == null)
-        //    {
-        //        return HttpNotFound();
-        //    }
-        //    return View();
-        //}
+            if (student == null)
+            {
+                return HttpNotFound();
+            }
+            return View();
+        }
 
         public ActionResult Create()
         {

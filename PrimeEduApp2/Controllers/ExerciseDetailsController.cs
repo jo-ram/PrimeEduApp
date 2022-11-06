@@ -16,10 +16,10 @@ namespace PrimeEduApp2.Controllers
         {
             _context = new ApplicationDbContext();
         }
-        // GET: Exercises
+        //GET: Exercises
         //public ActionResult Index()
         //{
-        //    var grades = _context.ExercisesDetails.Include(e => e.Exercise.Select(ex => ex.Student));
+        //    var grades = _context.Students.Include(e => e.ExercisesDetails.Select(ex => ex.Grade));
         //    return View(grades);
         //}
 
