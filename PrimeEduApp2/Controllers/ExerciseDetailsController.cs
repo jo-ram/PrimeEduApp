@@ -19,9 +19,8 @@ namespace PrimeEduApp2.Controllers
         // GET: Exercises
         //public ActionResult Index()
         //{
-
-        //    //var grades = _context.ExercisesDetails.Include(e=>e.Exercise.Select(ex=>ex.Student));
-        //    //return View(grades);
+        //    var grades = _context.ExercisesDetails.Include(e => e.Exercise.Select(ex => ex.Student));
+        //    return View(grades);
         //}
 
     }

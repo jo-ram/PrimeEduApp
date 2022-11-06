@@ -13,8 +13,6 @@
     <tr>
         <th>
             Classroom Name
-
-            
             @*<a href="@Url.Action("Index","Students", new {controller = "Students", id = model.ID})"*@
             @*@Html.DisplayNameFor(model => model.ClassroomName)*@
         </th>
@@ -26,24 +24,24 @@
         <tr>
             <td>
 
-                <a href="@Url.Action("StudentsPerClassroom","Classrooms", new { controller = "Classrooms", id = item.ID})">
-                @Html.DisplayFor(modelItem => item.ClassroomName)
-                </a>
-
-                @*<a href="">
+                @*<a href="@Url.Action("StudentsPerClassroom","Classrooms", new { controller = "Classrooms", id = item.ID})">
                 @Html.DisplayFor(modelItem => item.ClassroomName)
                 </a>*@
-
+                
+                @Html.DisplayFor(modelItem => item.ClassroomName)
             </td>
             @*<td>
                 @Html.DisplayFor(modelItem => item.ID)
             </td>*@
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.ID }) |
-                @*@Html.ActionLink("Details", "Details", new { id=item.ID }) |*@
-                @Html.ActionLink("Delete", "Delete", new { id=item.ID })
-                @*<button data-classroom-id="@item.ID" class="btn btn-link js-delete">Delete</button>*@
-            </td>
+        <td>
+            <a href="@Url.Action("StudentsPerClassroom","Classrooms", new { controller = "Classrooms", id = item.ID})">
+                List of Students
+            </a> |
+            @Html.ActionLink("Edit", "Edit", new { id = item.ID }) |
+            @*@Html.ActionLink("Details", "Details", new { id=item.ID }) |*@
+            @Html.ActionLink("Delete", "Delete", new { id = item.ID })
+            @*<button data-classroom-id="@item.ID" class="btn btn-link js-delete">Delete</button>*@
+        </td>
         </tr>
     }
 

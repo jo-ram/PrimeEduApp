@@ -200,6 +200,10 @@
     <Compile Include="Migrations\202211051842079_AddedExerciseDetails.Designer.cs">
       <DependentUpon>202211051842079_AddedExerciseDetails.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202211061118566_AddedDataAnnotations.cs" />
+    <Compile Include="Migrations\202211061118566_AddedDataAnnotations.Designer.cs">
+      <DependentUpon>202211061118566_AddedDataAnnotations.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Classroom.cs" />
@@ -314,6 +318,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202211051842079_AddedExerciseDetails.resx">
       <DependentUpon>202211051842079_AddedExerciseDetails.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202211061118566_AddedDataAnnotations.resx">
+      <DependentUpon>202211061118566_AddedDataAnnotations.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
