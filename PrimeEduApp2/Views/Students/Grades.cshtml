@@ -1,4 +1,4 @@
-﻿@model PrimeEduApp2.ViewModels.GradesFormViewModel
+﻿@model IEnumerable<PrimeEduApp2.ViewModels.GradesFormViewModel>
 
 @{
     ViewBag.Title = "Grades";
@@ -12,7 +12,7 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.ExercisesDetails.ExerciseName)
+            @Html.DisplayNameFor(model => model.ExercisesDetails.Exercise.ExerciseName)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Student.FirstName)

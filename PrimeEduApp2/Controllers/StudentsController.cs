@@ -30,19 +30,19 @@ namespace PrimeEduApp2.Controllers
             return View(students.ToList());
         }
 
-        //public ActionResult Grades(int? id)
-        //{
-        //    var grades = _context.ExercisesDetails.Include(e => e.Exercise).Where(ex => ex.StudentId == id).ToList();
-        //    var student = _context.Students.SingleOrDefault(s => s.ID == id);
+        public ActionResult Grades(int? id)
+        {
+            var grades = _context.ExercisesDetails.Include(e => e.Exercise).Where(ex => ex.StudentId == id).ToList();
+            var student = _context.Students.SingleOrDefault(s => s.ID == id);
 
-        //    var viewmodel = new GradesFormViewModel() 
-        //    {
-        //        ExercisesDetails = grades,
-        //        Student = student
-        //    };
+            var viewmodel = new GradesFormViewModel()
+            {
+                ExercisesDetails = grades,
+                Student = student
+            };
 
-        //    return View(viewmodel);
-        //}
+            return View(viewmodel);
+        }
 
         //public ActionResult Grades2(int? id)
         //{
