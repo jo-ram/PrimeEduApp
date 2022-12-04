@@ -14,13 +14,11 @@ namespace PrimeEduApp2.Controllers
     public class StudentsController : Controller
     {
         private readonly ApplicationDbContext _context;
-        //private readonly StudentRepository _studentRepository;
-        //private readonly ClassroomRepository _classroomRepository;
+       
         public StudentsController()
         {
             _context = new ApplicationDbContext();
-            //_studentRepository = new StudentRepository();
-            //_classroomRepository = new ClassroomRepository();
+         
         }
 
         // GET: Students
@@ -44,18 +42,7 @@ namespace PrimeEduApp2.Controllers
             return View(viewmodel);
         }
 
-        //public ActionResult Grades2(int? id)
-        //{
-        //    Student student = _context.Students.Include(c => c.ExercisesDetails).SingleOrDefault(a => a.ID == id);
-
-        //    if (student == null)
-        //    {
-        //        return HttpNotFound();
-        //    }
-        //    return View();
-
-
-        //}
+        
 
         public ActionResult Create()
         {

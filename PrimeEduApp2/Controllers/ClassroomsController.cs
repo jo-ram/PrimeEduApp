@@ -12,34 +12,33 @@ namespace PrimeEduApp2.Controllers
 {
     public class ClassroomsController : Controller
     {
-        private readonly ApplicationDbContext _context;
+        //private readonly ApplicationDbContext _context;
         private readonly ClassroomRepository _classroomRepository;
 
 
         public ClassroomsController()
         {
-            _context = new ApplicationDbContext();
+            //_context = new ApplicationDbContext();
             _classroomRepository = new ClassroomRepository();
         }
         // GET: Classroom
         public ActionResult Index()
         {
-            var classrooms = _context.Classrooms.ToList();
-            return View(classrooms);
+            var classrooms = _classroomRepository.GetAll();
+            return View(classrooms.ToList());
         }
 
         public ActionResult StudentsPerClassroom(int? id)
         {
-            var classroom = _context.Classrooms.Include(s => s.Students).SingleOrDefault(c => c.ID == id);
+            var classroom = _classroomRepository.StudentsPerClassroom(id);
             return View(classroom);
         }
 
         public ActionResult ExercisesPerClassroom(int? id)
         {
-            var classroomsEx = _context.Classrooms.Include(s => s.Exercises).SingleOrDefault(c => c.ID == id);
+            var classroomsEx = _classroomRepository.ExercisesPerClassroom(id);
             return View(classroomsEx);
         }
-
 
 
         public ActionResult Create()
@@ -53,8 +52,9 @@ namespace PrimeEduApp2.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Classrooms.Add(newClassroom);
-                _context.SaveChanges();
+                //_context.Classrooms.Add(newClassroom);
+                //_context.SaveChanges();
+                _classroomRepository.Create(newClassroom);
                 return RedirectToAction("Index");
             }
             return View(newClassroom);
@@ -63,7 +63,7 @@ namespace PrimeEduApp2.Controllers
         public ActionResult Edit(int? id)
         {
 
-            Classroom classroom = _context.Classrooms.Find(id);
+            Classroom classroom = _classroomRepository.GetById(id);
 
             if (classroom == null)
             {
@@ -77,8 +77,9 @@ namespace PrimeEduApp2.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Entry(classroom).State = EntityState.Modified;
-                _context.SaveChanges();
+                //_context.Entry(classroom).State = EntityState.Modified;
+                //_context.SaveChanges();
+                _classroomRepository.Update(classroom);
                 return RedirectToAction("Index");
             }
             return View(classroom);
@@ -90,8 +91,7 @@ namespace PrimeEduApp2.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Classroom classroom = _context.Classrooms
-                .SingleOrDefault(s => s.ID == id);
+            Classroom classroom = _classroomRepository.GetById(id);
 
             if (classroom == null)
             {
@@ -104,9 +104,10 @@ namespace PrimeEduApp2.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Delete(int id)
         {
-            Classroom classroom = _context.Classrooms.Find(id);
-            _context.Classrooms.Remove(classroom);
-            _context.SaveChanges();
+            //Classroom classroom = _context.Classrooms.Find(id);
+            //_context.Classrooms.Remove(classroom);
+            //_context.SaveChanges();
+            _classroomRepository.Delete(id);
 
             return RedirectToAction("Index");
         }
@@ -115,7 +116,7 @@ namespace PrimeEduApp2.Controllers
         {
             if (disposing)
             {
-                _context.Dispose();
+                _classroomRepository.Dispose();
             }
             base.Dispose(disposing);
         }
